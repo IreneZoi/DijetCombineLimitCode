@@ -161,6 +161,8 @@ def performFit(fInputFile, fPlot, fNbins, fBins,fFitXmin, fFitXmax,fLabel,  fOut
   for FunctionType in FunctionTypes:
     print " fit function %s"%FunctionType
     fitresult = doFit(FunctionType,hMassNEW,g,fFitXmin,fFitXmax,fNbins,xbins,fLabel)
+# doFit returns:
+# [chi2_VarBin_notNorm,ndf_VarBin,chi2_VarBin,BKGfit,hist_fit_residual_vsMass,nPar,histoCI]   
     M1Bkg = fitresult[3]
     hist_fit_residual_vsMass = fitresult[4]
     nPar = nBins_fit - fitresult[1] - 1
@@ -219,7 +221,7 @@ def performFit(fInputFile, fPlot, fNbins, fBins,fFitXmin, fFitXmax,fLabel,  fOut
     prmt = 4
     # print  " A better fit is needed for these data. "
 #     print  " You should check for higher-order polynomials. "
-  print  " A four parameter fit is needed to describe these data "
+    print  " A four parameter fit is needed to describe these data "
   print "-----------------------------------------"
   print ""
   print "For Latex table:"
@@ -552,11 +554,15 @@ def doFit(FunctionType,hMassNEW,g,fFitXmin,fFitXmax,fNbins,xbins,fLabel):
       BKGfit.SetParameter(4,0.0)
   
   stopProgram=1;
-  for loop in range (0,30):
+  totLoop = 30
+  for loop in range (0,totLoop):
+    print "fit loop %d" % loop
     r = hMassNEW.Fit("BKGfit%i"%FunctionType,"ISRB","",fFitXmin,fFitXmax)  
-    # r = hMassNEW.Fit("BKGfit%i"%FunctionType,"LFISR","",fFitXmin,fFitXmax)
+#    r = hMassNEW.Fit("BKGfit%i"%FunctionType,"LFISR","",fFitXmin,fFitXmax)
     fitStatus = int(r)
     print "fit status : %d" % fitStatus
+    if(loop == (totLoop-1) and fitStatus != 0) :
+      print " BAD FIT! "
     #if(fitStatus==0 and loop > 3):
       #stopProgram=0
       ## r.Print("V")
@@ -602,7 +608,7 @@ def doFit(FunctionType,hMassNEW,g,fFitXmin,fFitXmax,fNbins,xbins,fLabel):
   NumberOfObservations_VarBin = 0
   chi2_VarBin = 0.
   chi2_VarBin_notNorm = 0.
-  hist_fit_residual_vsMass =  TH1D("hist_fit_residual_vsMass","hist_fit_residual_vsMass",fNbins,xbins)
+  hist_fit_residual_vsMass =  TH1D("hist_fit_residual_vsMass_"+str(FunctionType)+"_"+str(fLabel),"hist_fit_residual_vsMass",fNbins,xbins)
   
   for bin in range (1,hMassNEW.GetNbinsX()):
     if( hMassNEW.GetXaxis().GetBinLowEdge(bin)>=fFitXmin and hMassNEW.GetXaxis().GetBinUpEdge(bin)<=fFitXmax ):
@@ -641,7 +647,9 @@ def FisherTest(RSS_1,RSS_2,dof_1,dof_2,N):
   F_dist = TF1("F_distr","TMath::Sqrt( (TMath::Power([0]*x,[0]) * TMath::Power([1],[1])) / (TMath::Power([0]*x + [1],[0]+[1])) ) / (x*TMath::Beta([0]/2,[1]/2))",0,1000)
   F_dist.SetParameter(0, n2-n1)
   F_dist.SetParameter(1, N-n2)
+  print "calculating CL with first method"
   CL = 1 - F_distr.Integral(0.00000001,F)
+  print "calculating CL with second method -> you will use this one!"
   alternateCL =  1.-TMath.FDistI(F,n2-n1,N-n2)
   return [F,CL,alternateCL,F_dist]
 
@@ -971,8 +979,8 @@ if __name__ == '__main__':
   for ch in channels:
       #performFit(file1,"DijetMassHighPuri%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, HP"%ch,"%s%sHP"%(outdir,ch),"summer16",doSigmaBand=False)
 #      performFit(file1,"DijetMassLowPuri%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, LP"%ch,"%s%sLP"%(outdir,ch),"summer16" ,doSigmaBand=False)
-      performFit(file1,"qcd_%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, HP"%ch,"%s%s_qcdHP"%(outdir,ch),"summer16" ,doSigmaBand=False)
-      performFit(file1,"data_%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, HP"%ch,"%s%s_dataHP"%(outdir,ch),"summer16" ,doSigmaBand=False)
+      performFit(file1,"qcd_%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, LP"%ch,"%s%s_qcdLP"%(outdir,ch),"summer16" ,doSigmaBand=False)
+      performFit(file1,"data_%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, LP"%ch,"%s%s_dataLP"%(outdir,ch),"summer16" ,doSigmaBand=False)
    
 # def performFit(fInputFile, fPlot, fNbins, fBins,fFitXmin, fFitXmax,fLabel,  fOutputFile,suffix ,doSigmaBand):
 
