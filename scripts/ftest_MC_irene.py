@@ -16,7 +16,7 @@ gStyle.SetOptFit(0)
 gROOT.SetBatch(True)
 CMS_lumi.lumi_13TeV = "36.8 fb^{-1}"
 CMS_lumi.writeExtraText = 1
-CMS_lumi.extraText = "Simulation Preliminary"
+#CMS_lumi.extraText = "Simulation Preliminary"
 CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
 iPos = 11
 if( iPos==0 ): CMS_lumi.relPosX = 0.12
@@ -245,8 +245,8 @@ def performFit(fInputFile, fPlot, fNbins, fBins,fFitXmin, fFitXmax,fLabel,  fOut
       print "Alt. 4 par& %.3f & %.3f & %i \\"%(rss[3],chi2[3],dof[3])
   print "\hline"
   print "\hline"
-  print "Fishers23 \multicolumn{2}{l}{%.3f}&CL \multicolumn{2}{l|}{%.3f}\\\\"%(fisher[0],ConfidenceLevel2[0])
-  print "Fishers34 \multicolumn{2}{l}{%.3f}&CL \multicolumn{2}{l|}{%.3f}\\\\"%(fisher[1],ConfidenceLevel2[1])
+  print "Fishers23 & %.3f&CL &%.3f\\\\"%(fisher[0],ConfidenceLevel2[0])
+  print "Fishers34 & %.3f&CL & %.3f\\\\"%(fisher[1],ConfidenceLevel2[1])
   if fInputFile.find("q")!=-1:
      print "Fishers45 \multicolumn{2}{l}{%.3f}&CL \multicolumn{2}{l|}{%.3f}\\\\"%(fisher[2],ConfidenceLevel2[2])
      #print "Fishers3Alt4 \multicolumn{2}{l}{%.3f}&CL \multicolumn{2}{l|}{%.3f}\\"%(fisher[3],ConfidenceLevel[3])
@@ -275,8 +275,8 @@ def performFit(fInputFile, fPlot, fNbins, fBins,fFitXmin, fFitXmax,fLabel,  fOut
       #text_file.write( "Alt. 4 par& %.3f & %.3f & %i \\"%(rss[4],chi2[4],dof[4])
     text_file.write( "\hline\n")
     text_file.write( "\hline\n")
-    text_file.write( "Fishers23 \multicolumn{2}{l}{%.3f}&CL \multicolumn{2}{l|}{%.3f}\\\\\n"%(fisher[0],ConfidenceLevel2[0]))
-    text_file.write( "Fishers34 \multicolumn{2}{l}{%.3f}&CL \multicolumn{2}{l|}{%.3f}\\\\\n"%(fisher[1],ConfidenceLevel2[1]))
+    text_file.write( "Fishers23 &%.3f&CL &%.3f\\\\\n"%(fisher[0],ConfidenceLevel2[0]))
+    text_file.write( "Fishers34 &%.3f&CL &%.3f\\\\\n"%(fisher[1],ConfidenceLevel2[1]))
     if fInputFile.find("q")!=-1:
        text_file.write( "Fishers45 \multicolumn{2}{l}{%.3f}&CL \multicolumn{2}{l|}{%.3f}\\\\\n"%(fisher[2],ConfidenceLevel2[2]))
        #text_file.write( "Fishers3Alt4 \multicolumn{2}{l}{%.3f}&CL \multicolumn{2}{l|}{%.3f}\\"%(fisher[3],ConfidenceLevel[3]))
@@ -310,6 +310,8 @@ def doFit(FunctionType,hMassNEW,g,fFitXmin,fFitXmax,fNbins,xbins,fLabel):
  
     if fLabel.find("WW") != -1 and fLabel.find("LP") != -1: 
         BKGfit.SetParameter(0,3.54934e-07   ) #WWLP
+    if fLabel.find("VV") != -1 and fLabel.find("SB") != -1: 
+        BKGfit.SetParameter(0,3.54934e-07   ) 
 
     
   if( FunctionType==0 ):
@@ -332,6 +334,11 @@ def doFit(FunctionType,hMassNEW,g,fFitXmin,fFitXmax,fNbins,xbins,fLabel):
         BKGfit.SetParLimits(2,10.2,20)
        
     if fLabel.find("WW") != -1 and fLabel.find("LP") != -1:
+        BKGfit.SetParameter(0, 1.91544e-07 ) #WWLP
+        BKGfit.SetParameter(1,-7.48572e-01 ) #WWHP
+        BKGfit.SetParameter(2, 8.07181e+00 ) #WWHP
+
+    if fLabel.find("VV") != -1 and fLabel.find("SB") != -1:
         BKGfit.SetParameter(0, 1.91544e-07 ) #WWLP
         BKGfit.SetParameter(1,-7.48572e-01 ) #WWHP
         BKGfit.SetParameter(2, 8.07181e+00 ) #WWHP
@@ -388,6 +395,11 @@ def doFit(FunctionType,hMassNEW,g,fFitXmin,fFitXmax,fNbins,xbins,fLabel):
       BKGfit.SetParLimits(3,-10,0)
       BKGfit.SetParLimits(2,10,20)
     if fLabel.find("WW") != -1 and fLabel.find("LP") != -1:
+      BKGfit.SetParameter(0, 1.34232e-02 )#WWLP
+      BKGfit.SetParameter(1, 1.35564e+01 ) #WWLP
+      BKGfit.SetParameter(2, 1.29328e+00 )#WWLP
+      BKGfit.SetParameter(3,-1.12300e+00 )#WWLP
+    if fLabel.find("VV") != -1 and fLabel.find("SB") != -1:
       BKGfit.SetParameter(0, 1.34232e-02 )#WWLP
       BKGfit.SetParameter(1, 1.35564e+01 ) #WWLP
       BKGfit.SetParameter(2, 1.29328e+00 )#WWLP
@@ -478,6 +490,11 @@ def doFit(FunctionType,hMassNEW,g,fFitXmin,fFitXmax,fNbins,xbins,fLabel):
       BKGfit.SetParLimits(3,-15,1)
       
     if fLabel.find("WW") != -1 and fLabel.find("LP") != -1:
+      BKGfit.SetParameter(0, 4.48531e-07 )# 1.47497e+08) #WWLP
+      BKGfit.SetParameter(1, -7.96655e-01)#5.01221e+01 ) #WWLP
+      BKGfit.SetParameter(2, 7.43952e+00 )#-1.21037e+01) #WWLP
+      BKGfit.SetParameter(3,0.)#-3.10164e+00) #WWLP
+    if fLabel.find("VV") != -1 and fLabel.find("SB") != -1:
       BKGfit.SetParameter(0, 4.48531e-07 )# 1.47497e+08) #WWLP
       BKGfit.SetParameter(1, -7.96655e-01)#5.01221e+01 ) #WWLP
       BKGfit.SetParameter(2, 7.43952e+00 )#-1.21037e+01) #WWLP
@@ -668,6 +685,10 @@ def DrawFit(hMassNEW,g,M1Bkg,hist_fit_residual_vsMass,FunctionType,nPar,fFitXmin
   c1.GetWindowWidth()
   c1.SetLogy()
   c1.Divide(1,2,0,0,0)
+  if fLabel.find("qcd") != -1  :
+    CMS_lumi.extraText = "Simulation Preliminary"
+  elif fLabel.find("data") != -1  :
+    CMS_lumi.extraText = "Preliminary"
 
   #------------ pad 1  ----------------
   c1.cd(1)
@@ -685,7 +706,7 @@ def DrawFit(hMassNEW,g,M1Bkg,hist_fit_residual_vsMass,FunctionType,nPar,fFitXmin
   #addInfo = TPaveText(0.1558691,0.30735043,0.3750171,0.4070085,"NDC")
   addInfo = TPaveText(0.2358691,0.04035043,0.5050171,0.1870085,"NDC")
   
-  addInfo.AddText(fLabel)
+#  addInfo.AddText(fLabel)
   # addInfo.AddText("65 GeV < M_{P} < 105 GeV")
   # addInfo.AddText("|#eta| < 2.4, p_{T} > 200 GeV")
   # addInfo.AddText("Pruned mass sideband")
@@ -816,13 +837,35 @@ def FitComparisons(hMassNEW,g,M1Bkg,hist_fit_residual_vsMass,FunctionType,nPar,f
   p11_1.SetTickx(0)
   p11_1.SetTicky(0)
  
+  if fLabel.find("qcd") != -1  :
+    CMS_lumi.extraText = "Simulation Preliminary"
+  elif fLabel.find("data") != -1  :
+    CMS_lumi.extraText = "Preliminary"
+
+
   #Pave text
 
-  addInfo = TPaveText(0.1372167,0.004789731,0.4346221,0.216379,"NDC")
-  addInfo.AddText("QCD, Pythia8")
-  addInfo.AddText(fLabel)
+  addInfo = TPaveText(0.1372167,0.02589731,0.5346221,0.356379,"NDC")
+#  addInfo = TPaveText(0.1372167,0.004789731,0.4346221,0.216379,"NDC")
+#  addInfo.AddText("QCD, Pythia8")
+#  addInfo.AddText(fLabel)
+  addInfo.AddText("Mass Side Band")
   addInfo.AddText("|#eta| < 2.5, p_{T} > 200 GeV")
   addInfo.AddText("M_{jj} > "+mjjcut+" TeV, |#Delta#eta_{jj}| < 1.3")
+  if fLabel.find("NoVBF") != -1  :
+    addInfo.AddText("no VBF jets: ");
+    addInfo.AddText("p_{T} > 30 GeV, | #eta | < 5 ");
+    addInfo.AddText("#eta_{1} #upoint #eta_{2} #geq 0");
+    addInfo.AddText("|#Delta #eta | #leq 3");
+    addInfo.AddText("m_{jj}^{AK4} #leq 1 TeV");
+  else :
+    addInfo.AddText("VBF jets: ");
+    addInfo.AddText("p_{T} > 30 GeV, | #eta | < 5 ");
+    addInfo.AddText("#eta_{1} #upoint #eta_{2} < 0");
+    addInfo.AddText("|#Delta #eta |> 3");
+    addInfo.AddText("m_{jj}^{AK4} #geq 1 TeV");
+
+
   addInfo.SetFillColor(0)
   addInfo.SetLineColor(0)
   addInfo.SetFillStyle(0)
@@ -848,17 +891,21 @@ def FitComparisons(hMassNEW,g,M1Bkg,hist_fit_residual_vsMass,FunctionType,nPar,f
   if (doSigmaBand): histoCI[0].Draw("same3")
   g.Draw("pe0 same")
 
-  styles = [1,1,7,3,3,2]
+  styles = [1,2,7,3,3,2]
+  marks = [20,22,32,25,32,35]
 
   i =0
   for f in M1Bkg:
     f.SetLineWidth(2)
     f.SetLineStyle(styles[i])
     f.SetLineColor(col.GetColor(palette[i]))
+    f.SetMarkerColor((col.GetColor(palette[i])))
+    f.SetMarkerStyle(marks[i])
+    f.SetMarkerSize(1.)
     f.Draw("same")
     i+=1
 
-  legend = TLegend(0.6040909,0.5712898,0.7220275,0.9063714)
+  legend = TLegend(0.5540909,0.5712898,0.7720275,0.9063714)
   if (doSigmaBand): legend = TLegend(0.6040909,0.5712898,0.7420275,0.9063714)
   legend.SetTextSize(0.04)
   legend.SetLineColor(0)
@@ -868,29 +915,32 @@ def FitComparisons(hMassNEW,g,M1Bkg,hist_fit_residual_vsMass,FunctionType,nPar,f
   legend.SetFillColor(0)
   legend.SetFillStyle(0)
   legend.SetMargin(0.35)
-  legend.AddEntry(g, "CMS data","lpe")
+  if fLabel.find("qcd") != -1  :
+    legend.AddEntry(g, "QCD Madgraph+Pythia8","lpe")
+  elif fLabel.find("data") != -1  :
+    legend.AddEntry(g, "CMS data","lpe")
   if (doSigmaBand): 
-    legend.AddEntry(M1Bkg[0], "2 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[0],dof[0]),"l")
+    legend.AddEntry(M1Bkg[0], "2 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[0],dof[0]),"lp")
     legend.AddEntry(histoCI[1], " #pm 1 #sigma (3 par. default fit)","f")
-    legend.AddEntry(M1Bkg[1], "3 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[1],dof[1]),"l")
+    legend.AddEntry(M1Bkg[1], "3 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[1],dof[1]),"lp")
     
-    legend.AddEntry(M1Bkg[2], "4 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[2],dof[2]),"l")
+    legend.AddEntry(M1Bkg[2], "4 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[2],dof[2]),"lp")
     if fLabel.find("q")!=-1:
-        legend.AddEntry(M1Bkg[3], "5 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[3],dof[3]),"l")
-        legend.AddEntry(M1Bkg[5], "Alt. 5 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[5],dof[5]),"l")
-        legend.AddEntry(M1Bkg[4], "Alt. , 4 par. (#chi^{2}/ndof = %.2f/%i)"%(chi2[4],dof[4]),"l")
+        legend.AddEntry(M1Bkg[3], "5 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[3],dof[3]),"lp")
+        legend.AddEntry(M1Bkg[5], "Alt. 5 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[5],dof[5]),"lp")
+        legend.AddEntry(M1Bkg[4], "Alt. , 4 par. (#chi^{2}/ndof = %.2f/%i)"%(chi2[4],dof[4]),"lp")
     else:
-        legend.AddEntry(M1Bkg[3], "Alt. , 4 par. (#chi^{2}/ndof = %.2f/%i)"%(chi2[3],dof[3]),"l")
+        legend.AddEntry(M1Bkg[3], "Alt. , 4 par. (#chi^{2}/ndof = %.2f/%i)"%(chi2[3],dof[3]),"lp")
   elif (not doSigmaBand): 
-    legend.AddEntry(M1Bkg[0], "2 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[0],dof[0]),"l")
-    legend.AddEntry(M1Bkg[1], "3 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[1],dof[1]),"l")
-    legend.AddEntry(M1Bkg[2], "4 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[2],dof[2]),"l")
-    if fLabel.find("q")!=-1:
-        legend.AddEntry(M1Bkg[3], "5 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[3],dof[3]),"l")
-        legend.AddEntry(M1Bkg[5], "Alt. 5 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[5],dof[5]),"l")
-        legend.AddEntry(M1Bkg[4], "Alt. , 4 par. (#chi^{2}/ndof = %.2f/%i)"%(chi2[4],dof[4]),"l")
+    legend.AddEntry(M1Bkg[0], "2 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[0],dof[0]),"lp")
+    legend.AddEntry(M1Bkg[1], "3 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[1],dof[1]),"lp")
+    legend.AddEntry(M1Bkg[2], "4 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[2],dof[2]),"lp")
+    if fLabel.find("khkjh8iuyh")!=-1:
+        legend.AddEntry(M1Bkg[3], "5 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[3],dof[3]),"lp")
+        legend.AddEntry(M1Bkg[5], "Alt. 5 par.   (#chi^{2}/ndof = %.2f/%i)"%(chi2[5],dof[5]),"lp")
+        legend.AddEntry(M1Bkg[4], "Alt. , 4 par. (#chi^{2}/ndof = %.2f/%i)"%(chi2[4],dof[4]),"lp")
     else:
-        legend.AddEntry(M1Bkg[3], "Alt. , 4 par. (#chi^{2}/ndof = %.2f/%i)"%(chi2[3],dof[3]),"l")
+        legend.AddEntry(M1Bkg[3], "Alt. , 4 par. (#chi^{2}/ndof = %.2f/%i)"%(chi2[3],dof[3]),"lp")
   legend.Draw("same")
   addInfo.Draw("same")
   p11_1.RedrawAxis()
@@ -969,9 +1019,9 @@ if __name__ == '__main__':
   #channels = ['qV','qZ','qW']
   fitmax = 7000
   mjjcut = "1050"
-  channels = ["WW_invMass","WW_invMass_afterVBFsel"] 
+  channels = ["VVinvMassNoVBF","VVinvMassVBF"] 
   
-  file1 = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/input/HighMass1SideBand/HighMass1SideBand_WW.root"
+  file1 = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/input/HighMass1SideBand/HighMass1SideBand_VV.root"
 #  file1 = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/input/HighMass1SideBand/HighMass1SideBand.root"
 #  file1 = "../../ExoDiBosonAnalysis/results/QCD_pythia8_qV_summer16.root"
   #file1 = "../../ExoDiBosonAnalysis/results/QCD_pythia8_qV.root"
@@ -979,8 +1029,8 @@ if __name__ == '__main__':
   for ch in channels:
       #performFit(file1,"DijetMassHighPuri%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, HP"%ch,"%s%sHP"%(outdir,ch),"summer16",doSigmaBand=False)
 #      performFit(file1,"DijetMassLowPuri%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, LP"%ch,"%s%sLP"%(outdir,ch),"summer16" ,doSigmaBand=False)
-      performFit(file1,"qcd_%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, LP"%ch,"%s%s_qcdLP"%(outdir,ch),"summer16" ,doSigmaBand=False)
-      performFit(file1,"data_%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "%s category, LP"%ch,"%s%s_dataLP"%(outdir,ch),"summer16" ,doSigmaBand=False)
+      performFit(file1,"qcd%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "qcd %s category, SB"%ch,"%s%s_qcdSB"%(outdir,ch),"summer16" ,doSigmaBand=False)
+      performFit(file1,"data%s"%ch, len(massBins)-1, massBins, 1118, fitmax, "data %s category, SB"%ch,"%s%s_dataSB"%(outdir,ch),"summer16" ,doSigmaBand=False)
    
 # def performFit(fInputFile, fPlot, fNbins, fBins,fFitXmin, fFitXmax,fLabel,  fOutputFile,suffix ,doSigmaBand):
 
