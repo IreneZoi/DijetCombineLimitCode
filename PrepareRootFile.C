@@ -23,7 +23,7 @@ void PrepareRootFile(TString cut, TString directory, TString legend = "yes", TSt
 
   TString base_dir = "/nfs/dust/cms/user/zoiirene/DiBoson/OutputBatch/"+directory+"/"; //ForFit/";
   if(print) std::cout << "base dir " << base_dir <<std::endl;
-  TString output_dir = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/input/";
+  TString output_dir = "/nfs/dust/cms/user/zoiirene/LimitCode/CMSSW_8_1_0/src/DijetCombineLimitCode/input/";
 
   TString channel[Channels];
   channel[0] = "graviton";
@@ -97,8 +97,8 @@ void PrepareRootFile(TString cut, TString directory, TString legend = "yes", TSt
   TDirectoryFile*d_WTopJet_withVBF_VV_qcd;
   TH1F* h_WTopJet_invM_withVBF_VV_qcd;
 
-  TString selectionVV="Wtopjets_VVMass";
-  TString selectionVBF="Wtopjets_withVBF_VVMass";
+  TString selectionVV="Wtopjets_VVMass_tau21HP";
+  TString selectionVBF="Wtopjets_VBF_invM1000";
 
   /*
   string s3="tau21";
