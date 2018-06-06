@@ -13,8 +13,8 @@ double signalScaler=1./(10.); // assume signal cross section of 1pb (The factor 
 double scaleFactorHP=1.0;// tau21 and jet mass scale factors data/MC
 double scaleFactorLP=1.0;// tau21 and jet mass scale factors data/MC
 
-bool constrainBackgroundParametersToSimulation=true; //NewStrategy. This option is useful for optimizing selection, but not adequat for analyzing data.
-bool correlateBackgroundParametersBetweenCategories=false;
+bool constrainBackgroundParametersToSimulation=false; //NewStrategy. This option is useful for optimizing selection, but not adequat for analyzing data.
+bool correlateBackgroundParametersBetweenCategories=true;
 
 string directory = "./" ;
 TColor *col = new TColor();
@@ -1245,7 +1245,7 @@ void MakeDataCard_1Channel(std::string altfunc, RooWorkspace* w, const char* fil
   return widmin;
 }
 
-void UHHFitter_cuts_newStrategy(string cut, double mass, int signalsamples=0, int channel=0,std::string altfunc="",std::string postfix="")
+void UHHFitter_cuts_newStrategy_combined(string cut, double mass, int signalsamples=0, int channel=0,std::string altfunc="",std::string postfix="")
 {
   filePOSTfix=postfix;
   runfits(cut, mass, signalsamples, channel,altfunc);

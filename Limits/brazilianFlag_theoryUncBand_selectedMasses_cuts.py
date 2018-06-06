@@ -375,7 +375,8 @@ def Plot(files, label, obs,CompareLimits=False,plotExpLimitRatio=""):
     if "radion" in label.split("_")[0]:
         resonance="R"
         frame.GetXaxis().SetTitle("M_{R} (TeV)")
-    frame.GetYaxis().SetTitle("#sigma_{95%} #times BR("+resonance+" #rightarrow WW"+label.split("_")[0].replace("graviton","").replace("radion","")+") (pb)") #irene 
+#    frame.GetYaxis().SetTitle("#sigma_{95%} #times BR("+resonance+" #rightarrow WW"+label.split("_")[0].replace("graviton","").replace("radion","")+") (pb)") #irene 
+    frame.GetYaxis().SetTitle("#sigma_{95%} (pp #rightarrow "+resonance+"jj #rightarrow WWjj"+label.split("_")[0].replace("graviton","").replace("radion","")+") (pb)") #irene 
 
     
 
@@ -448,6 +449,8 @@ def Plot(files, label, obs,CompareLimits=False,plotExpLimitRatio=""):
     
     print "max cross section (observed limit ) : " +str(round(rt.TMath.MaxElement(n,grobs.GetY()),5))+ " pb" 
     print "min cross section (observed limit ) : " +str(round(rt.TMath.MinElement(n,grobs.GetY()),5))+ " pb"
+    print "max cross section (expected limit ) : " +str(round(rt.TMath.MaxElement(n,grmean.GetY()),5))+ " pb" 
+    print "min cross section (expected limit ) : " +str(round(rt.TMath.MinElement(n,grmean.GetY()),5))+ " pb"
 
     #tmpmasses = grobs.GetX()
     #tmplimits = grobs.GetY()
@@ -629,10 +632,13 @@ def Plot(files, label, obs,CompareLimits=False,plotExpLimitRatio=""):
     print " observed limit for M=1200 GeV "+str(grobs.Eval(1.2))
     print " observed limit for M=2000 GeV "+str(grobs.Eval(2.0))
     print " observed limit for M=4000 GeV "+str(grobs.Eval(4.0))
+    print " expected limit for M=1200 GeV "+str(grmean.Eval(1.2))
+    print " expected limit for M=2000 GeV "+str(grmean.Eval(2.0))
+    print " expected limit for M=4000 GeV "+str(grmean.Eval(4.0))
 
     text_file = open("LimitTxt/"+label+"_Limit.txt", "w")
     text_file.write("1200 2000 4000\n")    
-    text_file.write("{0} {1} {2} \n".format( str(grobs.Eval(1.2)), str(grobs.Eval(2.0)), str(grobs.Eval(4.0)) )    )
+    text_file.write("{0} {1} {2} \n".format( str(grmean.Eval(1.2)), str(grmean.Eval(2.0)), str(grmean.Eval(4.0)) )    )
     text_file.close()
     #===============================================================================================
     
