@@ -768,6 +768,7 @@ if __name__ == '__main__':
   cut=sys.argv[1]
   postfix = "Limits/"
 
+#  channels=["radion"]
   channels=["graviton","radion"]
   regions=["_invMass","_invMass_afterVBFsel"]
   #channels=[opts.signal]
@@ -777,6 +778,7 @@ if __name__ == '__main__':
   for chan in channels:
       for region in regions:
           masses =[1200,2000,4000]
+#          masses =[2000]
 
           combinedplots=[]
     
