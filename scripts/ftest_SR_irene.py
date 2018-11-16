@@ -857,14 +857,14 @@ def FitComparisons(hMassNEW,g,M1Bkg,hist_fit_residual_vsMass,FunctionType,nPar,f
     addInfo.AddText("no VBF jets: ");
     addInfo.AddText("p_{T} > 30 GeV, | #eta | < 5 ");
     addInfo.AddText("#eta_{1} #upoint #eta_{2} #geq 0");
-    addInfo.AddText("|#Delta #eta | #leq 3");
-    addInfo.AddText("m_{jj}^{AK4} #leq 1 TeV");
+    addInfo.AddText("|#Delta #eta | #leq 4.5");
+    addInfo.AddText("m_{jj}^{AK4} #leq 800 GeV");
   else :
     addInfo.AddText("VBF jets: ");
     addInfo.AddText("p_{T} > 30 GeV, | #eta | < 5 ");
     addInfo.AddText("#eta_{1} #upoint #eta_{2} < 0");
-    addInfo.AddText("|#Delta #eta |> 3");
-    addInfo.AddText("m_{jj}^{AK4} #geq 1 TeV");
+    addInfo.AddText("|#Delta #eta |> 4.5");
+    addInfo.AddText("m_{jj}^{AK4} #geq 800 GeV");
 
 
   addInfo.SetFillColor(0)
@@ -1005,7 +1005,7 @@ def FitComparisons(hMassNEW,g,M1Bkg,hist_fit_residual_vsMass,FunctionType,nPar,f
  
 # ---------------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
-  outdir = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/input/SignalRegionFtest/"
+  outdir = "/nfs/dust/cms/user/zoiirene/LimitCode/CMSSW_8_1_0/src/DijetCombineLimitCode/input/SignalRegionFtest/"
   cmd ="rm "+outdir+"f-test_VVsummer16.tex"
   print cmd
   os.system(cmd)
@@ -1022,7 +1022,7 @@ if __name__ == '__main__':
   mjjcut = "1050"
   channels = ["VVinvMassNoVBF"]#,"VVinvMassVBF"] 
   
-  file1 = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/input/SignalRegionFtest/SignalRegion_VV.root"
+  file1 = "/nfs/dust/cms/user/zoiirene/LimitCode/CMSSW_8_1_0/src/DijetCombineLimitCode/input/SignalRegionFtest/SignalRegion_VV.root"
 #  file1 = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/input/HighMass1SideBand/HighMass1SideBand.root"
 #  file1 = "../../ExoDiBosonAnalysis/results/QCD_pythia8_qV_summer16.root"
   #file1 = "../../ExoDiBosonAnalysis/results/QCD_pythia8_qV.root"
