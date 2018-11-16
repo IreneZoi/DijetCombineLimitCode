@@ -5,16 +5,16 @@
 
 using namespace std;
 #define Channels 2
-#define Categories 2
-#define cutTau 5
-#define cutEta 4
+#define Categories 1
+#define dirs 2
+#define namen 2
 #define MassPoints 3
 
 //less /nfs/dust/cms/user/abenecke/scripts/plots/Limit_2d.C
 
 
 bool print=true; 
-TString dir = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/LimitTxt/Collage/";
+TString dir = "/nfs/dust/cms/user/zoiirene/LimitCode/CMSSW_8_1_0/src/DijetCombineLimitCode/LimitTxt/";
 
 
 
@@ -25,53 +25,42 @@ void Limit2D(){
   channel[1] = "radion";
 
   TString category[Categories];
-  category[0] = "invMass";
-  category[1] = "invMass_afterVBFsel";
-  
-  
-  TString cut_tau21[cutTau];
-  cut_tau21[0] = "tau21";
-  cut_tau21[1] = "tau21_04";
-  cut_tau21[2] = "tau21_05";
-  cut_tau21[3] = "tau21_06";
-  cut_tau21[4] = "tau21_07";
-  
-
-  TString cut_deta[cutEta];
-
-// cut_deta[0] = "DijetM500"; //NB need to modify ouptut txt!!!
-// cut_deta[1] = "DijetM1000";
-// cut_deta[2] = "DijetM1500";
-// cut_deta[3] = "DijetM2000";
-  
-  cut_deta[0] = "deta"; //NB need to modify ouptut txt!!!
-//  cut_deta[0] = ""; //NB need to modify ouptut txt!!!
-  cut_deta[1] = "deta4";
-  cut_deta[2] = "deta5";
-  cut_deta[3] = "deta6";
-  
+  //  category[0] = "invMass";
+  //category[1] = "invMass_afterVBFsel";
+  category[0] = "invMass_combined";
+    
   TString Mass[MassPoints];
   Mass[0] = "1200";
   Mass[1] = "2000";
   Mass[2] = "4000";
   
+  TString names[namen];
+  TString directory[dirs];
 
+  //  directory[0]="testInvertedSelection/";
+  directory[0]="testInvertedSelection/";
+  directory[1]="testInvertedSelection/JMSJMR/";
+
+  //  directory[1]="testInvertedSelectionPtAK4/";
+  //directory[2]="testInvertedSelectionPtAK4_100/";
  
+  //  names[0] = "noVBF_VBF_comb";
+  names[0] = "updatedJEC";
+  names[1] = "JMSJMR";
+  //names[1] = "updatedJEC_AK4Pt50";
+  //names[2] = "updatedJEC_AK4Pt100";
+
+
   std::vector<TString> mass = {"1200","2000","4000"};
   std::vector<TString> channels = {"graviton","radion"};
-  std::vector<TString> tau21cut = {"0.35","0.4","0.5","0.6","0.7"};
-  std::vector<TString> detacut = {"3","4","5","6"};
+  std::vector<TString> testing = {"JECJER","JMSJMR"};//,"P_{T_{1}}^{AK4}>100GeV"};
   
 
 
   typedef std::map<std::pair<int, int>, double > Maptype;
 
-  Maptype Limit_graviton_1200;
-  Maptype Limit_graviton_2000;
-  Maptype Limit_graviton_4000;
-  Maptype Limit_radion_1200;
-  Maptype Limit_radion_2000;
-  Maptype Limit_radion_4000;
+  Maptype Limit_graviton[Categories];
+  Maptype Limit_radion[Categories];
  
   double limit[MassPoints];   
   TString filename;
@@ -79,11 +68,11 @@ void Limit2D(){
   //get limits from file
   for(int i=0;i<channels.size();i++)
     {
-      for(int j=0;j<cutTau;j++)
+      for(int k=0;k<Categories;k++)
 	{
-	  for(int k=0;k<cutEta;k++)
+	  for(int j=0;j<dirs;j++)
 	    {
-	      filename = dir+channel[i]+"__"+category[1]+"_"+cut_tau21[j]+"_"+cut_deta[k]+"_new_combined_Limit.txt";
+	      filename = dir+directory[j]+channel[i]+"__"+category[k]+"_"+names[j]+"_new_combined_Limit.txt";
 	      //	      if(k==0) filename = dir+channel[i]+"__"+category[1]+"_"+cut_tau21[j]+"_new_combined_Limit.txt";
 	      cout << filename << endl;
 	      ifstream stream(filename);
@@ -103,62 +92,53 @@ void Limit2D(){
 		    stream  >> limit[0]  >> limit[1] >> limit[2];
 		  
 		}
-		  cout << "Limit for channel " << channel[i] << " category  " << category[1] << " and cuts " << cut_tau21[j]<< " " << cut_deta[k] << " : " << endl;
-		  for(int l=0;l<MassPoints;l++)
-		    cout << " Mass " << Mass[l] << " -> " << limit[l] << endl;
-
-	      if(i==0)
+	      cout << "Limit for channel " << channel[i] << " category  " << category[1] << " and cuts " << names[j]<< " : " << endl;
+	      
+	      for(int l=0;l<MassPoints;l++)
 		{
-		  Limit_graviton_1200.insert( std::make_pair(std::make_pair( j,k ), limit[0]) );
-		  Limit_graviton_2000.insert( std::make_pair(std::make_pair( j,k ), limit[1]) );
-		  Limit_graviton_4000.insert( std::make_pair(std::make_pair( j,k ), limit[2]) );
+		  cout << " Mass " << Mass[l] << " -> " << limit[l] << endl;
+		  
+		  if(i==0)
+		    {
+		      Limit_graviton[k].insert( std::make_pair(std::make_pair( j,l ), limit[l]) );
+		      cout << "Limit for "<< category[k] << " channel graviton[" << j  << "]["<< l << "] : "<< Limit_graviton[k][std::make_pair( j,l )]<<endl;
+		      
+		    }
+		  if(i==1)
+		    {
+		      Limit_radion[k].insert( std::make_pair(std::make_pair( j,l ), limit[l]) );
+		      cout << "Limit for "<< category[k] << " channel radion[" << j  << "]["<< l << "] : "<< Limit_radion[k][std::make_pair( j,l )] <<endl;;
+		    }
+		}//masses
 
-		  cout << "Limit for channel graviton_1200[" << j  << "]["<< k << "] : "<< Limit_graviton_1200[std::make_pair( j,k )];
-		  cout << "Limit for channel graviton_2000[" << j  << "]["<< k << "] : "<< Limit_graviton_2000.begin()->second << endl;
-		  cout << "Limit for channel graviton_4000[" << j  << "]["<< k << "] : "<< Limit_graviton_4000.begin()->second << endl;
-
-		}
-	      if(i==1)
-		{
-		  Limit_radion_1200.insert( std::make_pair(std::make_pair( j,k ), limit[0]) );
-		  Limit_radion_2000.insert( std::make_pair(std::make_pair( j,k ), limit[1]) );
-		  Limit_radion_4000.insert( std::make_pair(std::make_pair( j,k ), limit[2]) );
-		  cout << "Limit for channel radion_1200[" << j  << "]["<< k << "] : "<< Limit_radion_1200.begin()->second << endl;
-		  cout << "Limit for channel radion_2000[" << j  << "]["<< k << "] : "<< Limit_radion_2000.begin()->second << endl;
-		  cout << "Limit for channel radion_4000[" << j  << "]["<< k << "] : "<< Limit_radion_4000.begin()->second << endl;
-		}
-
-
-	    }//cut eta
-	}//cut tau
+	    }//dirs=namen
+	}//categories
     }//channels
 
 
 
   //histograms and canvas
+ 
   for(int i=0;i<channels.size();i++)
     {
-    for(int j=0;j<mass.size();j++)
-      {
-	
-	TH2F *limit_hist = new TH2F("limit_hist","Limit hist",tau21cut.size(),0,5,detacut.size(),0,4);
+ 
+      for(int k=0;k<Categories;k++)
+	{
 
-	cout << " tau21cut.size() " << tau21cut.size() << " and detacut.size() " << detacut.size() << endl; 
 
-       	for(int l=0;l<tau21cut.size();l++){
-	//if(j==0) detacut = {"700","900","1200"};
+	  TH2F *limit_hist = new TH2F("limit_hist","Limit hist",testing.size(),0,2,mass.size(),0,3);
 
-	  for(int k=0;k<detacut.size();k++){
-	    // someMap.find(someKey)->second
-	      if(channel[i]=="graviton" && Mass[j]=="1200")limit_hist->Fill(tau21cut[l],detacut[k],Limit_graviton_1200.find(std::make_pair(l,k))->second);
-	    if(channel[i]=="graviton" && Mass[j]=="2000")limit_hist->Fill(tau21cut[l],detacut[k],Limit_graviton_2000[std::make_pair(l,k)]);
-	    if(channel[i]=="graviton" && Mass[j]=="4000")limit_hist->Fill(tau21cut[l],detacut[k],Limit_graviton_4000[std::make_pair(l,k)]);
-	    if(channel[i]=="radion" && Mass[j]=="1200")limit_hist->Fill(tau21cut[l],detacut[k],Limit_radion_1200[std::make_pair(l,k)]);
-	    if(channel[i]=="radion" && Mass[j]=="2000")limit_hist->Fill(tau21cut[l],detacut[k],Limit_radion_2000[std::make_pair(l,k)]);
-	    if(channel[i]=="radion" && Mass[j]=="4000")limit_hist->Fill(tau21cut[l],detacut[k],Limit_radion_4000[std::make_pair(l,k)]);
+	cout << " tau21cut.size() " << testing.size() << " and detacut.size() " << mass.size() << endl; 
+
+       	for(int l=0;l<testing.size();l++)
+	  {
+	  for(int m=0;m<mass.size();m++)
+	    {
+	      if(channel[i]=="graviton")  limit_hist->Fill(testing[l],mass[m],Limit_graviton[k].find(std::make_pair(l,m))->second);
+	      if(channel[i]=="radion")    limit_hist->Fill(testing[l],mass[m],Limit_radion[k][std::make_pair(l,m)]);
 	  
-	  }//detacut
-	}//tau21cut
+	    }//mass
+	  }//testing
 
 	//save result
 	TCanvas *c1= new TCanvas("c1","c1",10,10,600,600);
@@ -172,8 +152,8 @@ void Limit2D(){
 	c1->SetRightMargin(0.15);
 	c1->SetLeftMargin(0.1);
 	limit_hist->SetTitle("");
-	limit_hist->GetXaxis()->SetTitle("#tau_{21}");
-	limit_hist->GetYaxis()->SetTitle("|#Delta #eta_{VBF}|");
+	limit_hist->GetXaxis()->SetTitle("");
+	limit_hist->GetYaxis()->SetTitle("");
 	limit_hist->Draw("colz");
 	limit_hist->Draw("same TEXT");
 
@@ -185,12 +165,13 @@ void Limit2D(){
 	// pt->Draw();
 
 
-	c1->Print(dir+"Limit_new_"+channel[i]+"_"+Mass[j]+".eps");
+	c1->Print(dir+"Limit_all_"+channel[i]+"_"+category[k]+".pdf");
 
 
 
 
-      }//mass
+
+	}//categories
     }//channels
 
 }//limits 2D

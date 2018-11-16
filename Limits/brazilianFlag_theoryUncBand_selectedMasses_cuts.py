@@ -6,7 +6,7 @@ import glob
 import math
 import array
 import sys
-sys.path.append('/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/Limits')                                                                                                
+sys.path.append('/nfs/dust/cms/user/zoiirene/LimitCode/CMSSW_8_1_0/src/DijetCombineLimitCode/Limits')                                                                                                
 import CMS_lumi
 #import tdrstyle
 import time
@@ -19,7 +19,7 @@ from optparse import OptionParser
 #tdrstyle.setTDRStyle()
 CMS_lumi.lumi_13TeV = "35.9 fb^{-1}"
 CMS_lumi.writeExtraText = 1
-CMS_lumi.extraText = ""
+CMS_lumi.extraText = "Preliminary"
 CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
 iPos = 11
 if( iPos==0 ): CMS_lumi.relPosX = 0.12
@@ -770,7 +770,8 @@ if __name__ == '__main__':
 
 #  channels=["radion"]
   channels=["graviton","radion"]
-  regions=["_invMass","_invMass_afterVBFsel"]
+#  regions=["_invMass_combined"]
+  regions=["_invMass","_invMass_afterVBFsel","_invMass_combined"]
   #channels=[opts.signal]
   #region = opts.region
   CompareLimits = False #True
@@ -785,7 +786,9 @@ if __name__ == '__main__':
           for mass in masses:
               combinedplots+=[postfix+"CMS_jj_"+str(mass)+"_"+chan+"_"+str(cut)+"_13TeV_"+region+"_asymptoticCLs_new.root"]
           print combinedplots;
-          if region == "_invMass":
-              Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=True,CompareLimits=False,plotExpLimitRatio="")  
-          if region == "_invMass_afterVBFsel":
+#          if region == "_invMass":
+ #             Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=True,CompareLimits=False,plotExpLimitRatio="")  
+  #        if region == "_invMass_afterVBFsel":
+   #           Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=False,CompareLimits=False,plotExpLimitRatio="")  
+          if region == "_invMass_combined":
               Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=False,CompareLimits=False,plotExpLimitRatio="")  

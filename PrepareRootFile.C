@@ -55,8 +55,8 @@ void PrepareRootFile(TString cut, TString directory, TString legend = "yes", TSt
     {
       for(i=0;i<MassPoints;i++)
 	{
-	  signal_file[i+j*MassPoints] = "uhh2.AnalysisModuleRunner.MC.VBF_"+Channel[j]+ss_mass[i]+"ToWW_FirstSelection_PUPPI.root";
-	  if(print) std::cout << "signal_file  " << i+j*MassPoints << " : " << "uhh2.AnalysisModuleRunner.MC.VBF_"+Channel[j]+ss_mass[i]+"ToWW_FirstSelection_PUPPI.root"  <<std::endl;
+	  signal_file[i+j*MassPoints] = "uhh2.AnalysisModuleRunner.MC.VBF_"+Channel[j]+ss_mass[i]+"ToWW_inv_newJEC_PUPPI.root";
+	  if(print) std::cout << "signal_file  " << i+j*MassPoints << " : " << "uhh2.AnalysisModuleRunner.MC.VBF_"+Channel[j]+ss_mass[i]+"ToWW_inv_newJEC_PUPPI.root"  <<std::endl;
 	}
     }
   
@@ -97,61 +97,71 @@ void PrepareRootFile(TString cut, TString directory, TString legend = "yes", TSt
   TDirectoryFile*d_WTopJet_withVBF_VV_qcd;
   TH1F* h_WTopJet_invM_withVBF_VV_qcd;
 
-  TString selectionVV="Wtopjets_VVMass_tau21HP";
-  TString selectionVBF="Wtopjets_VBF_invM1000";
+  TString selectionVV="Wtopjets_withVBF_VVMass_inverted";
+  TString selectionVBF="Wtopjets_withVBF_VVMass";
 
-  /*
-  string s3="tau21";
-  string s4="tau21_04";
-  string s5="tau21_05";
-  string s6="tau21_06";
-  string s7="tau21_07";
-  string CUT=cut.Data();
-  if(print)  cout << "CUT= " << CUT << endl;
-  if(print)  cout << "s3= " << s3 << endl;
-  if(print)  cout << "CUT find= " << CUT.find(s3) << endl;
-  if(CUT.find(s3)!= std::string::npos)
-    selectionVV="Wtopjets_"+s3;
-  if(CUT.find(s4)!= std::string::npos)
-    selectionVV="Wtopjets_"+s4;
-  if(CUT.find(s5)!= std::string::npos)
-    selectionVV="Wtopjets_"+s5;
-  if(CUT.find(s6)!= std::string::npos)
-    selectionVV="Wtopjets_"+s6;
-  if(CUT.find(s7)!= std::string::npos)
-    selectionVV="Wtopjets_"+s7;
-  */
 
-  string s5="invM500";
+  string s8="invM800";
+  string s9="invM900";
   string s10="invM1000";
-  string s15="invM1500";
-  string s20="invM2000";
-  string s25="invM2500";
-  string s30="invM3000";
-  string s35="invM3500";
-  string s40="invM4000";
+  string de35="de35";
+  string de4="de4";
+  string de45="de45";
+  string de5="de5";
+  string de55="de55";
+  string de6="de6";
   string CUT=cut.Data();
   if(print)  cout << "CUT= " << CUT << endl;
-  if(print)  cout << "s5= " << s5 << endl;
-  if(print)  cout << "CUT find= " << CUT.find(s5) << endl;
-  if(CUT.find(s5)!= std::string::npos)
-    selectionVBF="Wtopjets_VBF_"+s5;
+  if(print)  cout << "s8= " << s8 << endl;
+  if(print)  cout << "CUT find= " << CUT.find(s8) << endl;
+  if(CUT.find(s8)!= std::string::npos)
+    {
+      selectionVBF="Wtopjets_VBF_"+s8;
+      if(CUT.find(de35)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s8+"_"+de35;
+      if(CUT.find(de4)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s8+"_"+de4;
+      if(CUT.find(de45)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s8+"_"+de45;
+      if(CUT.find(de5)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s8+"_"+de5;
+      if(CUT.find(de55)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s8+"_"+de55;
+      if(CUT.find(de6)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s8+"_"+de6;
+    }
+  if(CUT.find(s9)!= std::string::npos)
+    {
+      selectionVBF="Wtopjets_VBF_"+s9;
+      if(CUT.find(de35)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s9+"_"+de35;
+      if(CUT.find(de4)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s9+"_"+de4;
+      if(CUT.find(de45)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s9+"_"+de45;
+      if(CUT.find(de5)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s9+"_"+de5;
+      if(CUT.find(de55)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s9+"_"+de55;
+      if(CUT.find(de6)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s9+"_"+de6;
+    }
   if(CUT.find(s10)!= std::string::npos)
-    selectionVBF="Wtopjets_VBF_"+s10;
-  if(CUT.find(s15)!= std::string::npos)
-    selectionVBF="Wtopjets_VBF_"+s15;
-  if(CUT.find(s20)!= std::string::npos)
-    selectionVBF="Wtopjets_VBF_"+s20;
-  if(CUT.find(s25)!= std::string::npos)
-    selectionVBF="Wtopjets_VBF_"+s25;
-  if(CUT.find(s30)!= std::string::npos)
-    selectionVBF="Wtopjets_VBF_"+s30;
-  if(CUT.find(s35)!= std::string::npos)
-    selectionVBF="Wtopjets_VBF_"+s35;
-  if(CUT.find(s40)!= std::string::npos)
-    selectionVBF="Wtopjets_VBF_"+s40;
-
-
+    {
+      selectionVBF="Wtopjets_VBF_"+s10;
+     if(CUT.find(de35)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s10+"_"+de35;
+      if(CUT.find(de4)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s10+"_"+de4;
+      if(CUT.find(de45)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s10+"_"+de45;
+      if(CUT.find(de5)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s10+"_"+de5;
+      if(CUT.find(de55)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s10+"_"+de55;
+      if(CUT.find(de6)!= std::string::npos)
+	selectionVBF="Wtopjets_VBF_"+s10+"_"+de6;
+    }
 
   if(print)  cout << "selectionVV= " << selectionVV << endl;
   //  selectionVBF="Wtopjets_withVBF_"+cut;
