@@ -3,8 +3,8 @@
 
 import os
 
-#steps=[1,2,3]#,4,5]
-steps=[1,2,3,4,5]
+steps=[1,2,3]#,4,5]
+#steps=[1,2,3,4,5]
 masses=[1200,2000,4000]
 cuts=["JMSJMR"]
 #cuts=["VV","VBF","invM500","invM1000","invM1500","invM2000","invM2500","invM3000","invM3500","invM4000"]
@@ -14,23 +14,23 @@ cuts=["JMSJMR"]
 #cuts=["tau21_deta4"]
 #cuts=["checkVBFnewStr"]
 
-if 1 in steps:
-    for mass in masses:
-       # interpolate between signal MCs
-        for cut in cuts:
-            os.system('python interpolateUHH_selectedMasses_cut.py input/graviton '+str(mass)+' '+str(cut) )
-            os.system('python interpolateUHH_selectedMasses_cut.py input/radion '+str(mass)+' '+str(cut) )
-            
-if 2 in steps:
-    # produce minitrees
-    for cut in cuts:
-        #    print cut
-        os.system('root -b -q "MiniTreeProducerDataUHH_cut.C(\\"'+str(cut)+'\\")"')
-        for mass in masses:
-            os.system('root -b -q "MiniTreeSignalProducerUHH_cuts.C(0,2,'+str(mass)+',\\"'+str(cut)+'\\")"')
-        
-if 3 in steps:
 #if 1 in steps:
+#    for mass in masses:
+       # interpolate between signal MCs
+#        for cut in cuts:
+#            os.system('python interpolateUHH_selectedMasses_cut.py input/graviton '+str(mass)+' '+str(cut) )
+#            os.system('python interpolateUHH_selectedMasses_cut.py input/radion '+str(mass)+' '+str(cut) )
+            
+#if 2 in steps:
+    # produce minitrees
+#    for cut in cuts:
+        #    print cut
+#        os.system('root -b -q "MiniTreeProducerDataUHH_cut.C(\\"'+str(cut)+'\\")"')
+#        for mass in masses:
+#            os.system('root -b -q "MiniTreeSignalProducerUHH_cuts.C(0,2,'+str(mass)+',\\"'+str(cut)+'\\")"')
+        
+#if 3 in steps:
+if 1 in steps:
     for mass in masses:
         for cut in cuts:
             # create datacards
@@ -38,19 +38,22 @@ if 3 in steps:
             #os.system('root -b -q "UHHFitter_cuts_newStrategy.cc(\\"'+str(cut)+'\\",'+str(mass)+',1,0,\\\"\\\")"') # radion inclusive
             #os.system('root -b -q "UHHFitter_cuts_newStrategy.cc(\\"'+str(cut)+'\\",'+str(mass)+',0,1,\\\"\\\")"') # graviton VBF-only
             #os.system('root -b -q "UHHFitter_cuts_newStrategy.cc(\\"'+str(cut)+'\\",'+str(mass)+',1,1,\\\"\\\")"') # radion VBF-only
-            os.system('root -b -q "UHHFitter_cuts_newStrategy_combined.cc(\\"'+str(cut)+'\\",'+str(mass)+',0,0,\\\"\\\")"') # graviton inclusive                                                           
-            os.system('root -b -q "UHHFitter_cuts_newStrategy_combined.cc(\\"'+str(cut)+'\\",'+str(mass)+',1,0,\\\"\\\")"') # radion inclusive                                                              
-            os.system('root -b -q "UHHFitter_cuts_newStrategy_combined.cc(\\"'+str(cut)+'\\",'+str(mass)+',0,1,\\\"\\\")"') # graviton VBF-only                                                             
-            os.system('root -b -q "UHHFitter_cuts_newStrategy_combined.cc(\\"'+str(cut)+'\\",'+str(mass)+',1,1,\\\"\\\")"') # radion VBF-only                                                               
+
+#            os.system('root -b -q "UHHFitter_cuts_newStrategy_combined.cc(\\"'+str(cut)+'\\",'+str(mass)+',0,0,\\\"\\\")"') # graviton inclusive                                                           
+#            os.system('root -b -q "UHHFitter_cuts_newStrategy_combined.cc(\\"'+str(cut)+'\\",'+str(mass)+',1,0,\\\"\\\")"') # radion inclusive                                                              
+#            os.system('root -b -q "UHHFitter_cuts_newStrategy_combined.cc(\\"'+str(cut)+'\\",'+str(mass)+',0,1,\\\"\\\")"') # graviton VBF-only                                                             
+#            os.system('root -b -q "UHHFitter_cuts_newStrategy_combined.cc(\\"'+str(cut)+'\\",'+str(mass)+',1,1,\\\"\\\")"') # radion VBF-only                                                               
+#             python implement-JESJMRsystematics.py #NB check directories/options!
+#             python implement-PDFSCALEsystematics.py  #NB check directories/options! 
             os.system('python Limits/CombineDatacardsUHH_cuts.py '+str(mass)+' '+str(cut))
 
-if 4 in steps:
-#if 2 in steps:
+#if 4 in steps:
+if 2 in steps:
     for mass in masses:
         for cut in cuts:
             os.system('python Limits/CalcAsympLimitsUHH_cuts.py '+str(mass)+' '+str(cut))
 
-if 5 in steps:
-#if 3 in steps:
+#if 5 in steps:
+if 3 in steps:
     for cut in cuts:
         os.system('python Limits/brazilianFlag_theoryUncBand_selectedMasses_cuts.py '+str(cut))

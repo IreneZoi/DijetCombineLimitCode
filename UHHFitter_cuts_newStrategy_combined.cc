@@ -1125,7 +1125,7 @@ void MakeDataCard_1Channel(std::string altfunc, RooWorkspace* w, const char* fil
     outFile << "CMS_eff_vtag_tau21_sf_13TeV         lnN  1.1556/0.855625     - # tau21 efficiency" << endl;
   }   
   
-  outFile << "CMS_acc_13TeV                       lnN  1.02    - # PDF unc. on acceptance" << endl;
+  //  outFile << "CMS_acc_13TeV                       lnN  1.02    - # PDF unc. on acceptance" << endl;
   outFile << "CMS_pu_13TeV                        lnN  1.02    - # pileup" << endl;
   
   outFile << "--------------------------------" << endl;

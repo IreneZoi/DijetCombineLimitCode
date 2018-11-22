@@ -55,89 +55,89 @@ for signal in signals:
         if signal.find("radion")    !=-1: label = "radion"
     #if signal.find("WZ")      !=-1: label = "WprimeWZ"
     #if signal.find("ZprimeWW")!=-1: label = "ZprimeWW"
-        fname_JMS = path+"JMS/JMSsys_"+label+"_"+category+".txt"
-        fname_JMR = path+"JMR/JMRsys_"+label+"_"+category+".txt"
-        fname_JES = path+"JES/JESsys_"+label+"_"+category+".txt"
-        fname_JER = path+"JER/JERsys_"+label+"_"+category+".txt"
-        JMSUP={}
-        JMSDOWN={}
-        JMRUP={}
-        JMRDOWN={}
-        jesUP={}
-        jesDOWN={}
-        jerUP={}
-        jerDOWN={}
+        fname_PDFacc = path+"PDFacc/PDFaccsys_"+label+"_"+category+".txt"
+        fname_PDFxs = path+"PDFxs/PDFxssys_"+label+"_"+category+".txt"
+        fname_SCALEacc = path+"SCALEacc/SCALEaccsys_"+label+"_"+category+".txt"
+        fname_SCALExs = path+"SCALExs/SCALExssys_"+label+"_"+category+".txt"
+        PDFaccUP={} 
+        PDFaccDOWN={}
+        PDFxsUP={}        
+        PDFxsDOWN={}
+        SCALEaccUP={}
+        SCALEaccDOWN={}
+        SCALExsUP={}
+        SCALExsDOWN={}
         print "For %s_%s :" %(signal,category)       
         print "Input systematics cards:"
-        print fname_JMS
-        print fname_JMR
-        print fname_JES
-        print fname_JER
+        print fname_PDFacc
+        print fname_PDFxs
+        print fname_SCALEacc
+        print fname_SCALExs
         
-        with open(fname_JMS,"r") as JMS:
-            for l in JMS:
+        with open(fname_PDFacc,"r") as PDFacc:
+            for l in PDFacc:
                 print l
                 if l.find('mass') != -1: continue
                 for m in masses_interpolated:
               #print " find mass "+str(m)+ " found : "+str( l.find("%i"%m))
                     if not l.find("%i"%m) != -1: continue
-                    JMSup = 1 + float(l.split(' ')[1])/100. 
-                    JMSdown = 1 + float(l.split(' ')[2])/100.
-                    JMSUP[m] = JMSup
-                    JMSDOWN[m] = JMSdown
+                    PDFaccup = 1 + float(l.split(' ')[1])/100. 
+                    PDFaccdown = 1 - float(l.split(' ')[1])/100.
+                    PDFaccUP[m] = PDFaccup
+                    PDFaccDOWN[m] = PDFaccdown
                     
-        with open(fname_JMR,"r") as JMR:
-            for l in JMR:
+        with open(fname_PDFxs,"r") as PDFxs:
+            for l in PDFxs:
                 if l.find('mass') != -1: continue
                 for m in masses_interpolated:
                     if not l.find("%i"%m) != -1: continue
-                    jmrup = 1 + float(l.split(' ')[1])/100.
-                    jmrdown =1 + float(l.split(' ')[2])/100.
-                    JMRUP[m] = jmrup
-                    JMRDOWN[m] = jmrdown      
+                    PDFxsup = 1 + float(l.split(' ')[1])/100.
+                    PDFxsdown =1 - float(l.split(' ')[1])/100.
+                    PDFxsUP[m] = PDFxsup
+                    PDFxsDOWN[m] = PDFxsdown      
         
-        with open(fname_JES,"r") as JES:
-            for l in JES:
+        with open(fname_SCALEacc,"r") as SCALEacc:
+            for l in SCALEacc:
                 if l.find('mass') != -1: continue
                 for m in masses_interpolated:
                     if not l.find("%i"%m) != -1: continue
-                    jesup = 1 + float(l.split(' ')[1])/100. 
-                    jesdown = 1 + float(l.split(' ')[2])/100.
-                    jesUP[m] = jesup
-                    jesDOWN[m] = jesdown
+                    SCALEaccup = 1 + float(l.split(' ')[1])/100. 
+                    SCALEaccdown = 1 + float(l.split(' ')[2])/100.
+                    SCALEaccUP[m] = SCALEaccup
+                    SCALEaccDOWN[m] = SCALEaccdown
                     
-        with open(fname_JER,"r") as JER:
-            for l in JER:
+        with open(fname_SCALExs,"r") as SCALExs:
+            for l in SCALExs:
                 if l.find('mass') != -1: continue
                 for m in masses_interpolated:
                     if not l.find("%i"%m) != -1: continue
-                    jerup = 1 + float(l.split(' ')[1])/100.
-                    jerdown =1 + float(l.split(' ')[2])/100.
-                    jerUP[m] = jerup
-                    jerDOWN[m] = jerdown
+                    SCALExsup = 1 + float(l.split(' ')[1])/100.
+                    SCALExsdown =1 + float(l.split(' ')[2])/100.
+                    SCALExsUP[m] = SCALExsup
+                    SCALExsDOWN[m] = SCALExsdown
         
         for m in masses_interpolated:
             if not m in massesInSystematics:
                 print "THIS MASSPOINT IS NOT IN LIST!! Extrapolating to lower: "
                 ref = m - 100
-                JMSUP[m] = JMSUP[ref]
-                JMSDOWN[m] = JMSDOWN[ref]
-                JMRUP[m]   = JMRUP[ref]
-                JMRDOWN[m] = JMRDOWN[ref]
-                jesUP[m]   = jesUP[ref]
-                jesDOWN[m] = jesDOWN[ref]
-                jerUP[m]   = jerUP[ref]
-                jerDOWN[m] = jerDOWN[ref]
-                print " JMSUP[%i]=JMSUP[%i]=%f" %(m,ref,JMSUP[m])
+                PDFaccUP[m] = PDFaccUP[ref]
+                PDFaccDOWN[m] = PDFaccDOWN[ref]
+                PDFxsUP[m]   = PDFxsUP[ref]
+                PDFxsDOWN[m] = PDFxsDOWN[ref]
+                SCALEaccUP[m]   = SCALEaccUP[ref]
+                SCALEaccDOWN[m] = SCALEaccDOWN[ref]
+                SCALExsUP[m]   = SCALExsUP[ref]
+                SCALExsDOWN[m] = SCALExsDOWN[ref]
+                print " PDFaccUP[%i]=PDFaccUP[%i]=%f" %(m,ref,PDFaccUP[m])
             
           
         for m in masses_interpolated:
             print ""
             print "Mass = %i: " %(m)
-            print " JMS UP/DOWN =    %.4f     %.4f  " %(JMSUP[m],JMSDOWN[m])
-            print " JMR UP/DOWN =    %.4f     %.4f  " %(JMRUP[m],JMRDOWN[m])
-            print " JES UP/DOWN =    %.4f     %.4f  " %(jesUP[m],jesDOWN[m])
-            print " JER UP/DOWN =    %.4f     %.4f  " %( jerUP[m],jerDOWN[m])
+            print " PDFacc UP/DOWN =    %.4f     %.4f  " %(PDFaccUP[m],PDFaccDOWN[m])
+            print " PDFxs UP/DOWN =    %.4f     %.4f  " %(PDFxsUP[m],PDFxsDOWN[m])
+            print " SCALEacc UP/DOWN =    %.4f     %.4f  " %(SCALEaccUP[m],SCALEaccDOWN[m])
+            print " SCALExs UP/DOWN =    %.4f     %.4f  " %( SCALExsUP[m],SCALExsDOWN[m])
             fname_datacard_in = prefixDCin + "%s_%s_%i"%(signal,name,m)+"_13TeV__"+category+".txt"
             fname_datacard_out = prefixDCout + "%s_%s_%i"%(signal,name,m)+"_13TeV__"+category+".txt"
             print "Input datacard:  %s" %fname_datacard_in
@@ -148,14 +148,14 @@ for signal in signals:
                     for line in infile:
                         if not (line.find("CMS_mass_scale_j_13TeV")!=-1 or line.find("CMS_mass_res_j_13TeV")!=-1 or line.find("CMS_scale_j_13TeV")!=-1 or line.find("CMS_res_j_13TeV")!=-1 ):
                             lines.append(line)
-                    jms="\nCMS_mass_scale_j_13TeV       lnN      %s/%s           -                          \n"%(JMSUP[m],JMSDOWN[m])
-                    jmr="CMS_mass_res_j_13TeV         lnN      %s/%s           -                          \n"%(JMRUP[m],JMRDOWN[m])
-                    jes="CMS_scale_j_13TeV            lnN      %s/%s           -  # jet energy scale      \n"%(jesUP[m],jesDOWN[m])
-                    jer="CMS_res_j_13TeV              lnN      %s/%s           -  # jet energy resolution \n"%(jerUP[m],jerDOWN[m])
-                    lines.append(jms)
-                    lines.append(jmr)
-                    lines.append(jes)
-                    lines.append(jer)
+                    PDFacc="\nCMS_PDF_acceptance_j_13TeV       lnN      %s/%s           -                          \n"%(PDFaccUP[m],PDFaccDOWN[m])
+                    PDFxs="CMS_PDF_XS_j_13TeV         lnN      %s/%s           -                          \n"%(PDFxsUP[m],PDFxsDOWN[m])
+                    SCALEacc="CMS_SCALE_acceptance_j_13TeV            lnN      %s/%s           -       \n"%(SCALEaccUP[m],SCALEaccDOWN[m])
+                    SCALExs="CMS_SCALE_XS_j_13TeV              lnN      %s/%s           -   \n"%(SCALExsUP[m],SCALExsDOWN[m])
+                    lines.append(PDFacc)
+#                    lines.append(PDFxs)
+                    lines.append(SCALEacc)
+#                    lines.append(SCALExs)
                             
                     with open(fname_datacard_out, 'w') as outfile:
                         for line in lines:
