@@ -767,8 +767,8 @@ void MakeSigWS(RooWorkspace* w, const char* fileBaseName, TString signalname, st
 
   // (2) Systematics on energy scale and resolution put in larges systematic from JES/JER/PDF -> add uncertainties in quadrature
 
-  wAll->factory("CMS_sig_p1_jes_13TeV[0.0,-10.0,10.0]");
-  wAll->factory("CMS_jj_sig_p1_jes_13TeV[0.022,0.022,0.022]"); // JES uncertainty
+  wAll->factory("CMS_sig_p1_jes_13TeV[0.0,-10.0,10.0]"); //"range" //these numbers are ok for 2016 data
+  wAll->factory("CMS_jj_sig_p1_jes_13TeV[0.022,0.022,0.022]"); // JES uncertainty //these numbers are ok for 2016 data    
   wAll->factory("sum::CMS_sig_p1_jes_sum_13TeV(1.0,prod::CMS_sig_p1_jes_prod_13TeV(CMS_sig_p1_jes_13TeV, CMS_jj_sig_p1_jes_13TeV))");
   // put systematics for PDF (impact on shape) -> peak
 
@@ -780,9 +780,9 @@ void MakeSigWS(RooWorkspace* w, const char* fileBaseName, TString signalname, st
   // (3) Systematics on resolution: create new sigmas
 
 
-  wAll->factory("CMS_sig_p2_jer_13TeV[0.0,-10.0,10.0]");
+  wAll->factory("CMS_sig_p2_jer_13TeV[0.0,-10.0,10.0]"); //"range" //these numbers are ok for 2016 data    
   
-  wAll->factory("CMS_jj_sig_p2_jer_13TeV[0.1,0.1,0.1]"); // JER uncertainty
+  wAll->factory("CMS_jj_sig_p2_jer_13TeV[0.06,0.06,0.06]"); // JER uncertainty //these numbers are ok for 2016 data    
   wAll->factory("sum::CMS_sig_p2_jer_sum_13TeV(1.0,prod::CMS_sig_p2_jer_prod_13TeV(CMS_sig_p2_jer_13TeV, CMS_jj_sig_p2_jer_13TeV))");  
  
   
