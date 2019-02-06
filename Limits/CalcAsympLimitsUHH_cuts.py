@@ -1,7 +1,7 @@
 import array, math
 import os, sys
 
-channels=["graviton","radion"]
+channels=["graviton","radion","wprime","zprime"]
 masses=[int(sys.argv[1])]
 cut=str(sys.argv[2]) #irene
 fullToys=False
@@ -9,6 +9,7 @@ fullToys=False
 for chan in channels:
     print "chan =",chan
     
+#    bins=["_invMass_combined"]
     bins=["_invMass","_invMass_afterVBFsel","_invMass_combined"]
 
     if fullToys:
