@@ -211,7 +211,7 @@ def Plot(files, label, obs,CompareLimits=False,plotExpLimitRatio=""):
         stmp2 = stmp.split("/")[1]
         print stmp2
         radmasses.append(float(stmp2)/1000.) 
-    #print radmasses
+#    print radmasses
 
     efficiencies={}
     for mass in radmasses:
@@ -446,9 +446,9 @@ def Plot(files, label, obs,CompareLimits=False,plotExpLimitRatio=""):
     #gtheoryDOWN.SetLineColor(rt.kRed)
     #gtheoryUP.SetLineWidth(1)
     #gtheoryDOWN.SetLineWidth(1)
-    
-    print "max cross section (observed limit ) : " +str(round(rt.TMath.MaxElement(n,grobs.GetY()),5))+ " pb" 
-    print "min cross section (observed limit ) : " +str(round(rt.TMath.MinElement(n,grobs.GetY()),5))+ " pb"
+    if obs:
+        print "max cross section (observed limit ) : " +str(round(rt.TMath.MaxElement(n,grobs.GetY()),5))+ " pb" 
+        print "min cross section (observed limit ) : " +str(round(rt.TMath.MinElement(n,grobs.GetY()),5))+ " pb"
     print "max cross section (expected limit ) : " +str(round(rt.TMath.MaxElement(n,grmean.GetY()),5))+ " pb" 
     print "min cross section (expected limit ) : " +str(round(rt.TMath.MinElement(n,grmean.GetY()),5))+ " pb"
 
@@ -629,16 +629,21 @@ def Plot(files, label, obs,CompareLimits=False,plotExpLimitRatio=""):
         print "graviton"
     if "radion" in label.split("_")[0]:
         print "radion"
-    print " observed limit for M=1200 GeV "+str(grobs.Eval(1.2))
-    print " observed limit for M=2000 GeV "+str(grobs.Eval(2.0))
-    print " observed limit for M=4000 GeV "+str(grobs.Eval(4.0))
-    print " expected limit for M=1200 GeV "+str(grmean.Eval(1.2))
-    print " expected limit for M=2000 GeV "+str(grmean.Eval(2.0))
-    print " expected limit for M=4000 GeV "+str(grmean.Eval(4.0))
+    if obs:
+        print " observed limit for M=1200 GeV "+str(grobs.Eval(1.2))
+        print " observed limit for M=2000 GeV "+str(grobs.Eval(2.0))
+        print " observed limit for M=4000 GeV "+str(grobs.Eval(4.0))
 
-    text_file = open("LimitTxt/"+label+"_Limit.txt", "w")
-    text_file.write("1200 2000 4000\n")    
-    text_file.write("{0} {1} {2} \n".format( str(grmean.Eval(1.2)), str(grmean.Eval(2.0)), str(grmean.Eval(4.0)) )    )
+
+#    print " expected limit for M=2000 GeV "+str(grmean.Eval(2.0))
+#    print " expected limit for M=4000 GeV "+str(grmean.Eval(4.0))
+
+    text_file = open("LimitTxt/"+label+"_Limit_NewFormat.txt", "w")
+    text_file.write("mass limit +1sigma -1sigma \n")  
+    for i in range(0,len(efficiencies)):  
+        print " expected limit for M="+str(radmasses[i])+" TeV "+str(grmean.Eval(radmasses[i]))
+        text_file.write("{0} {1} {2} {3} \n".format( str(radmasses[i]),str(grmean.Eval(radmasses[i])), str(gr1up.Eval(radmasses[i])), str(gr1down.Eval(radmasses[i])) )    )
+
     text_file.close()
     #===============================================================================================
     
@@ -697,6 +702,8 @@ def Plot(files, label, obs,CompareLimits=False,plotExpLimitRatio=""):
     
     
     time.sleep(5)
+
+
 
 
     
@@ -768,8 +775,8 @@ if __name__ == '__main__':
   cut=sys.argv[1]
   postfix = "Limits/"
 
-#  channels=["radion"]
-  channels=["graviton","radion"]
+  channels=["radion"]
+#  channels=["graviton","radion"]
 #  regions=["_invMass_combined"]
   regions=["_invMass","_invMass_afterVBFsel","_invMass_combined"]
   #channels=[opts.signal]
@@ -778,7 +785,7 @@ if __name__ == '__main__':
   plotExpLimitRatio = ""  
   for chan in channels:
       for region in regions:
-          masses =[1200,2000,4000]
+          masses =[1200,1400,1600,1800,2000,2500,3000,3500,4000,4500]
 #          masses =[2000]
 
           combinedplots=[]
@@ -786,9 +793,10 @@ if __name__ == '__main__':
           for mass in masses:
               combinedplots+=[postfix+"CMS_jj_"+str(mass)+"_"+chan+"_"+str(cut)+"_13TeV_"+region+"_asymptoticCLs_new.root"]
           print combinedplots;
-#          if region == "_invMass":
- #             Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=True,CompareLimits=False,plotExpLimitRatio="")  
-  #        if region == "_invMass_afterVBFsel":
-   #           Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=False,CompareLimits=False,plotExpLimitRatio="")  
+          if region == "_invMass":
+              Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=True,CompareLimits=False,plotExpLimitRatio="")  
+          if region == "_invMass_afterVBFsel":
+              Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=False,CompareLimits=False,plotExpLimitRatio="")  
           if region == "_invMass_combined":
               Plot(combinedplots,chan+"_"+region+"_"+str(cut)+"_new_combined", obs=False,CompareLimits=False,plotExpLimitRatio="")  
+
