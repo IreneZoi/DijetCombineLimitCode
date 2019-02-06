@@ -5,7 +5,7 @@ import os,sys
 
 mass=sys.argv[1]
 cut=sys.argv[2]
-signals=["graviton","radion"]
+signals=["graviton","radion","wprime","zprime"]
 directory="datacards/"
 
 for signal in signals:
