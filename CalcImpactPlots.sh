@@ -1,9 +1,10 @@
 #!bin/bash
-masses=(1900)
+masses=(1200 2000 4000)
 #models=("WZ" "BulkWW" "BulkZZ" "ZprimeWW")
-category=("WWHP") #"WWLP" "ZZHP" "ZZLP" "VVnew")
-models=("BulkWW")
+category=("_invMass" "_invMass_afterVBFsel" "_invMass_combined") #"WWLP" "ZZHP" "ZZLP" "VVnew")
+models=("graviton" "radion")
 #category=("qVnew")
+name="correctPUPPIres"
 
 for mass in ${masses[@]}
 do
@@ -14,8 +15,8 @@ do
         #mass=1400
         #model="WZ"
         #cat="WZLP"
-        datacard="datacards/CMS_jj_${model}_${mass}_13TeV_CMS_jj_${c}.txt"
-        workspace="datacards/CMS_jj_${model}_${mass}_13TeV_CMS_jj_${c}.root"
+        datacard="datacards/CMS_jj_${model}_${name}_${mass}_13TeV_${c}.txt"
+        workspace="datacards/CMS_jj_${model}_${name}_${mass}_13TeV_${c}.root"
 
         text2workspace.py $datacard -m $mass
 
@@ -27,7 +28,7 @@ do
 
         plotImpacts.py -i impacts.json -o impacts
 
-        mv ./impacts.pdf Impacts_${model}_${mass}_${c}.pdf
+        mv ./impacts.pdf Impacts_${model}_${mass}_${c}_${name}.pdf
         done
     done
 done
