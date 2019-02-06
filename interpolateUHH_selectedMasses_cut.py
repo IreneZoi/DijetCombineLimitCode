@@ -55,6 +55,12 @@ if "graviton" in inputRoot:
 if "radion" in inputRoot:
   masses=[1200,2000,4000]
 
+if "wprime" in inputRoot:
+  masses=[1200,2000,4000]
+
+if "zprime" in inputRoot:
+  masses=[1200,2000,4000]
+
 for i in range(len(masses)-1):
    if outmjj>=masses[i] and outmjj<masses[i+1]:
        mjjlow = masses[i]
