@@ -756,7 +756,7 @@ if __name__ == '__main__':
   postfix = "Limits/"
 
   channels=["graviton","radion"]
-  regions=["_invMass","_invMass_afterVBFsel"]
+  regions=["_invMass","_invMass_afterVBFsel,_invMass_combined"]
   #channels=[opts.signal]
   #region = opts.region
   CompareLimits = False #True
