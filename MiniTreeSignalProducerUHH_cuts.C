@@ -1,4 +1,4 @@
-void MiniTreeSignalProducerUHH_cuts(int samplemin=0, int samplemax=2, int dMass=2000, string sSelection=""){
+void MiniTreeSignalProducerUHH_cuts(int samplemin=0, int samplemax=4, int dMass=2000, string sSelection=""){
      std::cout << " MiniTreeSignalProducerUHH" << std::endl;
 
  string dir = "";
@@ -16,10 +16,14 @@ void MiniTreeSignalProducerUHH_cuts(int samplemin=0, int samplemax=2, int dMass=
    string inFile;
    if (iSample == 0) inFile = string("graviton");
    if (iSample == 1) inFile = string("radion");
+   if (iSample == 2) inFile = string("wprime");
+   if (iSample == 3) inFile = string("zprime");
 
    string outFile;
    if (iSample == 0) outFile = string("dijetUHH_13TeV_graviton");
    if (iSample == 1) outFile = string("dijetUHH_13TeV_radion");
+   if (iSample == 2) outFile = string("dijetUHH_13TeV_wprime");
+   if (iSample == 3) outFile = string("dijetUHH_13TeV_zprime");
    
    string sInFile = dir+"input/" + inFile + Form("_%s_Interpolated%d.root", sSelection.c_str(), dMass);
      std::cout << sInFile.c_str() << std::endl;
