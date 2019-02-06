@@ -15,7 +15,7 @@ parser.add_option("-p", "--path", dest="path",action="store", default="/nfs/dust
                               help="set input path")
 parser.add_option("-o", "--outpath", dest="outpath", action="store",default="/nfs/dust/cms/user/zoiirene/LimitCode/CMSSW_8_1_0/src/DijetCombineLimitCode/",
                               help="set output path")
-parser.add_option("-d", "--directory", dest="directory", action="store",default="testInvertedSelection/JMSJMR",
+parser.add_option("-d", "--directory", dest="directory", action="store",default="datacards/testInvertedSelection/JMSJMR",
                               help="set datacard directory")
 parser.add_option("-n", "--name", dest="name", action="store",default="JMSJMR",
                               help="set datacard name")
@@ -25,8 +25,8 @@ outpath=opts.outpath
 directory=opts.directory 
 name=opts.name
 
-prefixDCin = outpath+"datacards/"+directory+"/CMS_jj_"
-prefixDCout = outpath+"datacards/"+directory+"/CMS_jj_"
+prefixDCin = outpath+directory+"/CMS_jj_"
+prefixDCout = outpath+directory+"/CMS_jj_"
 
 #prefix = "EXOVVSystematics/dijet"
 
