@@ -17,7 +17,7 @@ void Draw2(TH1F *hRec1, TString label1, TH1F *hRec2, TString label2, bool drawle
 void Draw( TH1F *hRec, bool drawlegend, bool logy, TString channel, TString name, TString selections, float xmin, float xmax,  float ymin, float ymax);
 
 
-void PrepareSignalRigionRootFile(TString inverted = "testMET", TString legend = "yes", TString status = "blinded"){
+void PrepareSignalRegionRootFile(TString inverted = "testInvertedSelection", TString legend = "yes", TString status = "blinded"){
   //void PrepareInvertedRootFile(TString cut, TString directory, TString inverted, TString legend = "yes", TString status = "blinded"){
   //  cout << " cut " << cut << endl;
   // input 
@@ -25,7 +25,7 @@ void PrepareSignalRigionRootFile(TString inverted = "testMET", TString legend = 
   //  TString base_dir = "/nfs/dust/cms/user/zoiirene/DiBoson/OutputBatch/"+directory+"/"; //ForFit/";
   TString inverted_dir = "/nfs/dust/cms/user/zoiirene/DiBoson/OutputBatch/"+inverted+"/"; //ForFit/";
   if(print) std::cout << "inverted dir " << inverted_dir <<std::endl;
-  TString output_dir = "/nfs/dust/cms/user/zoiirene/CombineTutorial/CMSSW_8_1_0/src/DijetCombineLimitCode/input/SignalRegionFtest/";
+  TString output_dir = "/nfs/dust/cms/user/zoiirene/LimitCode/CMSSW_8_1_0/src/DijetCombineLimitCode/input/SignalRegionFtest/";
 
   // TString channel[Channels];
   // channel[0] = "graviton";
